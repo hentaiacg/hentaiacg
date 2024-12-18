@@ -1,0 +1,29 @@
+name: Send Telegram
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    name: Send Telegram Job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Telegram-Msg
+        uses: colutius/Telegram-Msg@main
+        with:
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          chatid: ${{ secrets.TELEGRAM_ID }}
+          message: |
+            👇新的提交👇
+            
+            👤提交人: [${{ github.actor }}]
+  
+            📄提交信息: ${{ github.event.commits[0].message }}
+  
+            📦仓库: ${{ github.repository }}
+          button: true
+          button_name: 👀查看更改👀
+          button_url: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+          is_notify: true
+          is_preview: true
+    
